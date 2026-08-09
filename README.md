@@ -9,7 +9,7 @@ npm run db:setup
 npm run dev
 ```
 
-#Порты:
+Порты:
 
 ```text
 Frontend: http://localhost:4200
