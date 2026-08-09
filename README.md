@@ -1,6 +1,7 @@
-#Vavilov Bar
+Vavilov Bar
 
-##Start:
+
+Start:
 ```bash
 yarn install
 cp backend/.env.example backend/.env
