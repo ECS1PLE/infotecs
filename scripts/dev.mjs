@@ -60,7 +60,7 @@ for (const service of services) {
   });
 }
 
-process.stdout.write('\nBAR/21 development\nFrontend: http://localhost:4200\nBackend:  http://localhost:3100\nHealth:   http://localhost:3100/api/health\n\n');
+process.stdout.write('\VAVILOV/ development\nFrontend: http://localhost:4200\nBackend:  http://localhost:3100\nHealth:   http://localhost:3100/api/health\n\n');
 
 process.on('SIGINT', () => stop(0));
 process.on('SIGTERM', () => stop(0));
