@@ -1,0 +1,21 @@
+{
+  "name": "bar-card",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "npm run frontend",
+    "frontend": "npm run start --prefix frontend",
+    "backend": "npm run dev --prefix backend",
+    "dev": "node scripts/dev.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "db:setup": "npm run db:generate --prefix backend && npm run db:push --prefix backend && npm run db:seed --prefix backend"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10"
+  }
+}
