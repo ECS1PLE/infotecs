@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #08080d;
+  --panel: rgba(19, 19, 29, 0.72);
+  --panel-strong: #13131d;
+  --line: rgba(255, 255, 255, 0.1);
+  --text: #f6f6fb;
+  --muted: #9c9cae;
+  --violet: #7c5cff;
+  --cyan: #5af2ff;
+  --acid: #c6ff3d;
+  --danger: #ff4d73;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(124, 92, 255, 0.14), transparent 28rem),
+    radial-gradient(circle at 90% 25%, rgba(90, 242, 255, 0.08), transparent 32rem),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, sans-serif;
+}
+
+body {
+  min-width: 320px;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.glass-panel {
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  backdrop-filter: blur(22px);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.28);
+}
+
+.neon-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #ffffff 10%, #cabfff 52%, #72f6ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-header-cell {
+  color: #9c9cae !important;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mat-mdc-cell {
+  color: #f6f6fb !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border: 1px solid var(--line);
+  background: #11111a !important;
+}
