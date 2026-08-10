@@ -58,15 +58,15 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
             </div>
           </div>
 
-          <div class="min-h-80 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025]">
+          <div class="relative h-80 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] lg:h-full lg:min-h-80">
             @if (cocktail.imageUrl) {
               <img
                 [src]="cocktail.imageUrl | mediaUrl"
                 [alt]="cocktail.name"
-                class="h-full min-h-80 w-full object-cover"
+                class="absolute inset-0 h-full w-full object-cover"
               >
             } @else {
-              <div class="grid h-full min-h-80 place-items-center px-8 text-center text-sm text-white/25">
+              <div class="grid h-full place-items-center px-8 text-center text-sm text-white/25">
                 Итоговое изображение не добавлено
               </div>
             }
@@ -94,15 +94,15 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
                     {{ step.description }}
                   </p>
                 </div>
-                <div class="min-h-56 border-t border-white/10 bg-black/20 md:border-l md:border-t-0">
+                <div class="relative h-[16rem] border-t border-white/10 bg-black/20 md:h-full md:min-h-[16.75rem] md:border-l md:border-t-0">
                   @if (step.imageUrl) {
                     <img
                       [src]="step.imageUrl | mediaUrl"
                       [alt]="'Шаг ' + (index + 1)"
-                      class="h-full min-h-56 w-full object-cover"
+                      class="absolute inset-0 h-full w-full object-cover"
                     >
                   } @else {
-                    <div class="grid h-full min-h-56 place-items-center text-xs uppercase tracking-[0.18em] text-white/20">
+                    <div class="grid h-full place-items-center text-xs uppercase tracking-[0.18em] text-white/20">
                       visual pending
                     </div>
                   }
