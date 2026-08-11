@@ -21,12 +21,12 @@ import { CocktailFormComponent } from '../components/cocktail-form.component';
   template: `
     @if (viewModel$ | async; as vm) {
       <ui-page-header
-        [eyebrow]="vm.isEdit ? 'редактирование' : 'новый'"
+        [eyebrow]="vm.isEdit ? 'редактирование' : 'создание'"
         [title]="vm.isEdit ? 'Редактирование' : 'Новый рецепт'"
         [description]="
           vm.isEdit
-            ? 'Измените описание, шаги или изображения.'
-            : 'Заполните карточку и добавьте шаги приготовления.'
+            ? 'Измените описание, шаги или изображения'
+            : 'Заполните карточку и добавьте шаги приготовления'
         "
       />
 
