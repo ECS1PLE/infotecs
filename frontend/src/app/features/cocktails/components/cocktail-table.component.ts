@@ -15,7 +15,7 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
       <div class="overflow-x-auto">
         <table mat-table [dataSource]="items()" class="w-full !min-w-[820px]">
           <ng-container matColumnDef="image">
-            <th mat-header-cell *matHeaderCellDef>Preview</th>
+            <th mat-header-cell *matHeaderCellDef>Фото</th>
             <td mat-cell *matCellDef="let item">
               <div class="my-3 h-14 w-20 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
                 @if (item.imageUrl) {
@@ -26,7 +26,7 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
                   >
                 } @else {
                   <div class="grid h-full w-full place-items-center text-[10px] uppercase tracking-widest text-white/20">
-                    no image
+                    нет
                   </div>
                 }
               </div>

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { BrandComponent } from '../../../shared/components/brand/brand.component';
+import { BrandComponent } from '../../../shared/ui/brand/brand.component';
 
 @Component({
   selector: 'app-auth-layout',
@@ -12,17 +12,17 @@ import { BrandComponent } from '../../../shared/components/brand/brand.component
 
       <div class="mx-auto flex h-full max-w-7xl flex-col">
         <div class="flex shrink-0 items-center justify-between">
-          <app-brand />
+          <ui-brand />
         </div>
 
         <div class="grid min-h-0 flex-1 items-center gap-8 py-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 lg:py-8">
           <section class="hidden lg:block">
             <div class="max-w-2xl">
               <h1 class="text-gradient text-7xl font-black leading-[0.88] tracking-[-0.075em] xl:text-8xl">
-                RECIPES<br>AFTER DARK
+                Барная<br>карта
               </h1>
               <p class="mt-7 max-w-xl text-base leading-7 text-white/45">
-                Личная барная карта: рецепты, пошаговое приготовление, изображения и полный контроль над коллекцией.
+                Рецепты коктейлей с шагами и фотографиями.
               </p>
             </div>
           </section>

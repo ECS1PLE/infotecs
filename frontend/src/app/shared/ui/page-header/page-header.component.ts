@@ -1,14 +1,16 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-page-header',
+  selector: 'ui-page-header',
   standalone: true,
   template: `
     <header class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div>
-        <div class="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#72f6ff]">
-          {{ eyebrow() }}
-        </div>
+        @if (eyebrow()) {
+          <div class="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#72f6ff]">
+            {{ eyebrow() }}
+          </div>
+        }
         <h1 class="text-gradient text-4xl font-black tracking-[-0.055em] md:text-6xl">
           {{ title() }}
         </h1>

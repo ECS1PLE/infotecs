@@ -1,4 +1,3 @@
-import { DecimalPipe } from '@angular/common';
 import { Component, input, OnChanges, output, SimpleChanges } from '@angular/core';
 import {
   FormArray,
@@ -8,18 +7,17 @@ import {
   Validators
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import {
   Cocktail,
   CocktailPayload
 } from '../../../core/models/cocktail.model';
-import { ImageUploadComponent } from '../../../shared/components/image-upload/image-upload.component';
-
-type StepForm = FormGroup<{
-  description: FormControl<string>;
-  imageUrl: FormControl<string | null>;
-}>;
+import { TextInputComponent } from '../../../shared/ui/text-input/text-input.component';
+import { TextareaComponent } from '../../../shared/ui/textarea/textarea.component';
+import { ImageUploadComponent } from '../../../shared/ui/image-upload/image-upload.component';
+import {
+  CocktailStepFormComponent,
+  CocktailStepFormGroup
+} from './cocktail-step-form.component';
 
 @Component({
   selector: 'app-cocktail-form',
@@ -27,46 +25,35 @@ type StepForm = FormGroup<{
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
+    TextInputComponent,
+    TextareaComponent,
     ImageUploadComponent,
-    DecimalPipe
+    CocktailStepFormComponent
   ],
   template: `
     <form [formGroup]="form" class="space-y-6" (ngSubmit)="submit()">
       <section class="glass-panel rounded-3xl p-5 md:p-7">
-        <div class="mb-6">
-          <div class="text-xs font-semibold uppercase tracking-[0.2em] text-[#72f6ff]">
-            01 / Основа
-          </div>
-          <h2 class="mt-2 text-xl font-bold tracking-tight">Карточка коктейля</h2>
-        </div>
+        <h2 class="mb-6 text-xl font-bold tracking-tight">Основное</h2>
 
         <div class="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
           <div class="space-y-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Название</mat-label>
-              <input matInput formControlName="name" maxlength="100">
-              @if (form.controls.name.invalid && form.controls.name.touched) {
-                <mat-error>Укажите название</mat-error>
-              }
-            </mat-form-field>
+            <ui-text-input
+              label="Название"
+              [control]="form.controls.name"
+              [maxLength]="100"
+              error="Укажите название"
+            />
 
-            <mat-form-field appearance="outline">
-              <mat-label>Описание</mat-label>
-              <textarea
-                matInput
-                formControlName="description"
-                rows="8"
-                maxlength="1200"
-              ></textarea>
-              @if (form.controls.description.invalid && form.controls.description.touched) {
-                <mat-error>Добавьте описание</mat-error>
-              }
-            </mat-form-field>
+            <ui-textarea
+              label="Описание"
+              [control]="form.controls.description"
+              [rows]="8"
+              [maxLength]="1200"
+              error="Добавьте описание"
+            />
           </div>
 
-          <app-image-upload
+          <ui-image-upload
             label="Итоговое изображение"
             [value]="form.controls.imageUrl.value"
             (valueChange)="form.controls.imageUrl.setValue($event)"
@@ -76,56 +63,20 @@ type StepForm = FormGroup<{
 
       <section class="glass-panel rounded-3xl p-5 md:p-7">
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div class="text-xs font-semibold uppercase tracking-[0.2em] text-[#c6ff3d]">
-              02 / Процесс
-            </div>
-            <h2 class="mt-2 text-xl font-bold tracking-tight">Шаги приготовления</h2>
-          </div>
+          <h2 class="text-xl font-bold tracking-tight">Шаги</h2>
           <button mat-stroked-button type="button" (click)="addStep()">
             Добавить шаг
           </button>
         </div>
 
-        <div formArrayName="steps" class="space-y-5">
+        <div class="flex flex-col gap-5">
           @for (step of steps.controls; track step; let index = $index) {
-            <article
-              [formGroupName]="index"
-              class="rounded-2xl border border-white/10 bg-black/15 p-4 md:p-5"
-            >
-              <div class="mb-4 flex items-center justify-between">
-                <div class="text-sm font-bold">
-                  <span class="mr-2 text-white/25">{{ index + 1 | number: '2.0-0' }}</span>
-                  Шаг
-                </div>
-                @if (steps.length > 1) {
-                  <button mat-button type="button" (click)="removeStep(index)">
-                    Удалить
-                  </button>
-                }
-              </div>
-
-              <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-                <mat-form-field appearance="outline">
-                  <mat-label>Что нужно сделать</mat-label>
-                  <textarea
-                    matInput
-                    formControlName="description"
-                    rows="7"
-                    maxlength="800"
-                  ></textarea>
-                  @if (step.controls.description.invalid && step.controls.description.touched) {
-                    <mat-error>Опишите действие</mat-error>
-                  }
-                </mat-form-field>
-
-                <app-image-upload
-                  [label]="'Изображение шага ' + (index + 1)"
-                  [value]="step.controls.imageUrl.value"
-                  (valueChange)="step.controls.imageUrl.setValue($event)"
-                />
-              </div>
-            </article>
+            <app-cocktail-step-form
+              [group]="step"
+              [index]="index"
+              [canRemove]="steps.length > 1"
+              (remove)="removeStep(index)"
+            />
           }
         </div>
       </section>
@@ -138,7 +89,7 @@ type StepForm = FormGroup<{
           class="!h-11"
           [disabled]="saving()"
         >
-          {{ saving() ? 'Сохраняем...' : submitLabel() }}
+          {{ saving() ? 'Сохранение...' : submitLabel() }}
         </button>
       </div>
     </form>
@@ -147,7 +98,7 @@ type StepForm = FormGroup<{
 export class CocktailFormComponent implements OnChanges {
   readonly initialValue = input<Cocktail | null>(null);
   readonly saving = input(false);
-  readonly submitLabel = input('Сохранить рецепт');
+  readonly submitLabel = input('Сохранить');
   readonly saved = output<CocktailPayload>();
   readonly cancel = output<void>();
 
@@ -161,10 +112,10 @@ export class CocktailFormComponent implements OnChanges {
       validators: [Validators.required, Validators.maxLength(1200)]
     }),
     imageUrl: new FormControl<string | null>(null),
-    steps: new FormArray<StepForm>([this.createStep()])
+    steps: new FormArray<CocktailStepFormGroup>([this.createStep()])
   });
 
-  get steps(): FormArray<StepForm> {
+  get steps(): FormArray<CocktailStepFormGroup> {
     return this.form.controls.steps;
   }
 
@@ -183,9 +134,9 @@ export class CocktailFormComponent implements OnChanges {
     this.form.controls.imageUrl.setValue(cocktail.imageUrl);
     this.steps.clear();
 
-    cocktail.steps.forEach((step) => {
+    for (const step of cocktail.steps) {
       this.steps.push(this.createStep(step.description, step.imageUrl));
-    });
+    }
 
     if (this.steps.length === 0) {
       this.steps.push(this.createStep());
@@ -200,7 +151,6 @@ export class CocktailFormComponent implements OnChanges {
     if (this.steps.length <= 1) {
       return;
     }
-
     this.steps.removeAt(index);
   }
 
@@ -225,7 +175,7 @@ export class CocktailFormComponent implements OnChanges {
   private createStep(
     description = '',
     imageUrl: string | null = null
-  ): StepForm {
+  ): CocktailStepFormGroup {
     return new FormGroup({
       description: new FormControl(description, {
         nonNullable: true,

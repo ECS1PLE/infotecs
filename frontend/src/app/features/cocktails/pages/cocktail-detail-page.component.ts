@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,9 +8,10 @@ import { CocktailsFacade } from '../../../core/cocktails/cocktails.facade';
 import {
   ConfirmDialogComponent,
   ConfirmDialogData
-} from '../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { LoadingStateComponent } from '../../../shared/components/loading-state/loading-state.component';
+} from '../../../shared/ui/confirm-dialog/confirm-dialog.component';
+import { LoadingStateComponent } from '../../../shared/ui/loading-state/loading-state.component';
 import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
+import { CocktailStepCardComponent } from '../components/cocktail-step-card.component';
 
 @Component({
   selector: 'app-cocktail-detail-page',
@@ -18,17 +19,17 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
   imports: [
     AsyncPipe,
     DatePipe,
-    DecimalPipe,
     RouterLink,
     MatButtonModule,
     MediaUrlPipe,
-    LoadingStateComponent
+    LoadingStateComponent,
+    CocktailStepCardComponent
   ],
   template: `
     @if (cocktail$ | async; as cocktail) {
       <article>
         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <a mat-button routerLink="/cocktails">← К коллекции</a>
+          <a mat-button routerLink="/cocktails">← Назад</a>
           <div class="flex gap-2">
             <a mat-stroked-button [routerLink]="['/cocktails', cocktail.id, 'edit']">
               Изменить
@@ -44,7 +45,7 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
             <div class="neon-orb -left-16 top-8 h-52 w-52 bg-[#7c5cff]"></div>
             <div class="relative">
               <div class="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#72f6ff]">
-                рецепт / {{ cocktail.createdAt | date: 'dd.MM.yyyy' }}
+                {{ cocktail.createdAt | date: 'dd.MM.yyyy' }}
               </div>
               <h1 class="text-gradient max-w-3xl text-5xl font-black leading-[0.93] tracking-[-0.065em] md:text-7xl">
                 {{ cocktail.name }}
@@ -67,53 +68,23 @@ import { MediaUrlPipe } from '../../../shared/pipes/media-url.pipe';
               >
             } @else {
               <div class="grid h-full place-items-center px-8 text-center text-sm text-white/25">
-                Итоговое изображение не добавлено
+                Нет изображения
               </div>
             }
           </div>
         </section>
 
         <section class="mt-14">
-          <div class="mb-7">
-            <div class="text-xs font-semibold uppercase tracking-[0.22em] text-[#c6ff3d]">
-              процесс
-            </div>
-            <h2 class="mt-2 text-3xl font-black tracking-[-0.045em]">
-              Как приготовить
-            </h2>
-          </div>
-
-          <div class="space-y-5">
+          <h2 class="mb-7 text-3xl font-black">Приготовление</h2>
+          <div class="flex flex-col gap-5">
             @for (step of cocktail.steps; track step.id; let index = $index) {
-              <article class="glass-panel grid overflow-hidden rounded-3xl md:grid-cols-[1fr_0.78fr]">
-                <div class="p-6 md:p-8">
-                  <div class="mb-5 text-5xl font-black tracking-[-0.08em] text-white/10">
-                    {{ index + 1 | number: '2.0-0' }}
-                  </div>
-                  <p class="max-w-2xl text-base leading-7 text-white/65">
-                    {{ step.description }}
-                  </p>
-                </div>
-                <div class="relative h-[16rem] border-t border-white/10 bg-black/20 md:h-full md:min-h-[16.75rem] md:border-l md:border-t-0">
-                  @if (step.imageUrl) {
-                    <img
-                      [src]="step.imageUrl | mediaUrl"
-                      [alt]="'Шаг ' + (index + 1)"
-                      class="absolute inset-0 h-full w-full object-cover"
-                    >
-                  } @else {
-                    <div class="grid h-full place-items-center text-xs uppercase tracking-[0.18em] text-white/20">
-                      visual pending
-                    </div>
-                  }
-                </div>
-              </article>
+              <app-cocktail-step-card [step]="step" [index]="index" />
             }
           </div>
         </section>
       </article>
     } @else {
-      <app-loading-state label="Загружаем рецепт" />
+      <ui-loading-state label="Загрузка рецепта..." />
     }
   `
 })
@@ -137,8 +108,7 @@ export class CocktailDetailPageComponent implements OnInit, OnDestroy {
   confirmDelete(id: string, name: string): void {
     const data: ConfirmDialogData = {
       title: `Удалить «${name}»?`,
-      description:
-        'Рецепт будет удален из вашей коллекции. Это действие нельзя отменить.',
+      description: 'Рецепт будет удалён без возможности восстановления.',
       confirmLabel: 'Удалить'
     };
 
@@ -152,7 +122,7 @@ export class CocktailDetailPageComponent implements OnInit, OnDestroy {
 
         this.cocktailsFacade.delete(id).subscribe({
           next: () => {
-            this.snackBar.open('Рецепт удален', 'Закрыть', { duration: 2500 });
+            this.snackBar.open('Рецепт удалён', 'Закрыть', { duration: 2500 });
             void this.router.navigate(['/cocktails']);
           }
         });

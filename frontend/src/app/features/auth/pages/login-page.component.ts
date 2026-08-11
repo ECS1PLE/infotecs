@@ -7,10 +7,10 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe } from '@angular/common';
 import { AuthFacade } from '../../../core/auth/auth.facade';
+import { TextInputComponent } from '../../../shared/ui/text-input/text-input.component';
+import { AlertComponent } from '../../../shared/ui/alert/alert.component';
 import { AuthLayoutComponent } from '../components/auth-layout.component';
 
 @Component({
@@ -20,43 +20,36 @@ import { AuthLayoutComponent } from '../components/auth-layout.component';
     ReactiveFormsModule,
     RouterLink,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     AsyncPipe,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    TextInputComponent,
+    AlertComponent
   ],
   template: `
     <app-auth-layout
       eyebrow="вход"
-      title="Вернуться в бар"
-      description="Войдите, чтобы продолжить работу с вашей коллекцией."
+      title="Войти"
+      description="Доступ к вашей коллекции рецептов."
     >
       <form [formGroup]="form" class="space-y-3" (ngSubmit)="submit()">
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" autocomplete="email">
-          @if (form.controls.email.invalid && form.controls.email.touched) {
-            <mat-error>Введите корректный email</mat-error>
-          }
-        </mat-form-field>
+        <ui-text-input
+          label="Email"
+          type="email"
+          autocomplete="email"
+          [control]="form.controls.email"
+          error="Введите корректный email"
+        />
 
-        <mat-form-field appearance="outline">
-          <mat-label>Пароль</mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="password"
-            autocomplete="current-password"
-          >
-          @if (form.controls.password.invalid && form.controls.password.touched) {
-            <mat-error>Минимум 8 символов</mat-error>
-          }
-        </mat-form-field>
+        <ui-text-input
+          label="Пароль"
+          type="password"
+          autocomplete="current-password"
+          [control]="form.controls.password"
+          error="Минимум 8 символов"
+        />
 
         @if (error$ | async; as error) {
-          <div class="rounded-xl border border-[#ff4d73]/25 bg-[#ff4d73]/10 px-4 py-3 text-sm text-[#ff8da6]">
-            {{ error }}
-          </div>
+          <ui-alert [message]="error" />
         }
 
         <button
@@ -65,7 +58,7 @@ import { AuthLayoutComponent } from '../components/auth-layout.component';
           class="!mt-5 !h-12 !w-full"
           [disabled]="form.invalid || submitting"
         >
-          {{ submitting ? 'Входим...' : 'Войти' }}
+          {{ submitting ? 'Вход...' : 'Войти' }}
         </button>
 
         <div class="pt-4 text-center text-sm text-white/45">

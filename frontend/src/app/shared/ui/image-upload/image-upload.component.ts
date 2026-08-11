@@ -5,7 +5,7 @@ import { UploadService } from '../../../core/uploads/upload.service';
 import { MediaUrlPipe } from '../../pipes/media-url.pipe';
 
 @Component({
-  selector: 'app-image-upload',
+  selector: 'ui-image-upload',
   standalone: true,
   imports: [MatButtonModule, MatProgressBarModule, MediaUrlPipe],
   template: `
@@ -60,9 +60,8 @@ export class ImageUploadComponent {
   readonly uploading = signal(false);
 
   onFileSelected(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const file = inputElement.files?.[0];
-
+    const el = event.target as HTMLInputElement;
+    const file = el.files?.[0];
     if (!file) {
       return;
     }
@@ -72,11 +71,11 @@ export class ImageUploadComponent {
       next: ({ url }) => {
         this.valueChange.emit(url);
         this.uploading.set(false);
-        inputElement.value = '';
+        el.value = '';
       },
       error: () => {
         this.uploading.set(false);
-        inputElement.value = '';
+        el.value = '';
       }
     });
   }

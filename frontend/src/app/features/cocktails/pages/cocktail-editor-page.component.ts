@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { CocktailsFacade } from '../../../core/cocktails/cocktails.facade';
 import { CocktailPayload } from '../../../core/models/cocktail.model';
-import { LoadingStateComponent } from '../../../shared/components/loading-state/loading-state.component';
-import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { LoadingStateComponent } from '../../../shared/ui/loading-state/loading-state.component';
+import { PageHeaderComponent } from '../../../shared/ui/page-header/page-header.component';
 import { CocktailFormComponent } from '../components/cocktail-form.component';
 
 @Component({
@@ -20,23 +20,23 @@ import { CocktailFormComponent } from '../components/cocktail-form.component';
   ],
   template: `
     @if (viewModel$ | async; as vm) {
-      <app-page-header
-        [eyebrow]="vm.isEdit ? 'редактирование' : 'новый рецепт'"
-        [title]="vm.isEdit ? 'Настроить рецепт' : 'Новая позиция'"
+      <ui-page-header
+        [eyebrow]="vm.isEdit ? 'редактирование' : 'новый'"
+        [title]="vm.isEdit ? 'Редактирование' : 'Новый рецепт'"
         [description]="
           vm.isEdit
-            ? 'Обновите описание, процесс приготовления или изображения.'
-            : 'Соберите рецепт по шагам. Изображения можно добавить как к результату, так и к каждому этапу.'
+            ? 'Измените описание, шаги или изображения.'
+            : 'Заполните карточку и добавьте шаги приготовления.'
         "
       />
 
       @if (vm.isEdit && (vm.status === 'loading' || !vm.cocktail)) {
-        <app-loading-state label="Открываем рецепт" />
+        <ui-loading-state label="Загрузка рецепта..." />
       } @else {
         <app-cocktail-form
           [initialValue]="vm.cocktail"
           [saving]="vm.mutationStatus === 'loading'"
-          [submitLabel]="vm.isEdit ? 'Сохранить изменения' : 'Создать рецепт'"
+          [submitLabel]="vm.isEdit ? 'Сохранить' : 'Создать'"
           (saved)="save($event)"
           (cancel)="cancel()"
         />
@@ -85,7 +85,7 @@ export class CocktailEditorPageComponent implements OnInit, OnDestroy {
     request$.subscribe({
       next: (cocktail) => {
         this.snackBar.open(
-          id ? 'Изменения сохранены' : 'Рецепт создан',
+          id ? 'Сохранено' : 'Рецепт создан',
           'Закрыть',
           { duration: 2500 }
         );

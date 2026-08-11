@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-  selector: 'app-loading-state',
+  selector: 'ui-loading-state',
   standalone: true,
   imports: [MatProgressSpinnerModule],
   template: `
@@ -15,5 +15,5 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   `
 })
 export class LoadingStateComponent {
-  readonly label = input('Загружаем');
+  readonly label = input('Загрузка...');
 }

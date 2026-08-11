@@ -7,10 +7,10 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe } from '@angular/common';
 import { AuthFacade } from '../../../core/auth/auth.facade';
+import { TextInputComponent } from '../../../shared/ui/text-input/text-input.component';
+import { AlertComponent } from '../../../shared/ui/alert/alert.component';
 import { AuthLayoutComponent } from '../components/auth-layout.component';
 
 @Component({
@@ -20,51 +20,43 @@ import { AuthLayoutComponent } from '../components/auth-layout.component';
     ReactiveFormsModule,
     RouterLink,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     AsyncPipe,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    TextInputComponent,
+    AlertComponent
   ],
   template: `
     <app-auth-layout
       eyebrow="регистрация"
-      title="Новый профиль"
-      description="Создайте приватное пространство для своей барной карты."
+      title="Регистрация"
+      description="Создайте аккаунт, чтобы сохранять рецепты."
     >
       <form [formGroup]="form" class="space-y-3" (ngSubmit)="submit()">
-        <mat-form-field appearance="outline">
-          <mat-label>Имя</mat-label>
-          <input matInput formControlName="name" autocomplete="name">
-          @if (form.controls.name.invalid && form.controls.name.touched) {
-            <mat-error>Минимум 2 символа</mat-error>
-          }
-        </mat-form-field>
+        <ui-text-input
+          label="Имя"
+          autocomplete="name"
+          [control]="form.controls.name"
+          error="Минимум 2 символа"
+        />
 
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" autocomplete="email">
-          @if (form.controls.email.invalid && form.controls.email.touched) {
-            <mat-error>Введите корректный email</mat-error>
-          }
-        </mat-form-field>
+        <ui-text-input
+          label="Email"
+          type="email"
+          autocomplete="email"
+          [control]="form.controls.email"
+          error="Введите корректный email"
+        />
 
-        <mat-form-field appearance="outline">
-          <mat-label>Пароль</mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="password"
-            autocomplete="new-password"
-          >
-          @if (form.controls.password.invalid && form.controls.password.touched) {
-            <mat-error>Минимум 8 символов, буква и цифра</mat-error>
-          }
-        </mat-form-field>
+        <ui-text-input
+          label="Пароль"
+          type="password"
+          autocomplete="new-password"
+          [control]="form.controls.password"
+          error="Минимум 8 символов, буква и цифра"
+        />
 
         @if (error$ | async; as error) {
-          <div class="rounded-xl border border-[#ff4d73]/25 bg-[#ff4d73]/10 px-4 py-3 text-sm text-[#ff8da6]">
-            {{ error }}
-          </div>
+          <ui-alert [message]="error" />
         }
 
         <button
@@ -73,11 +65,11 @@ import { AuthLayoutComponent } from '../components/auth-layout.component';
           class="!mt-5 !h-12 !w-full"
           [disabled]="form.invalid || submitting"
         >
-          {{ submitting ? 'Создаем...' : 'Создать аккаунт' }}
+          {{ submitting ? 'Создание...' : 'Создать аккаунт' }}
         </button>
 
         <div class="pt-4 text-center text-sm text-white/45">
-          Уже есть профиль?
+          Уже есть аккаунт?
           <a routerLink="/auth/login" class="font-semibold text-white hover:text-[#72f6ff]">
             Войти
           </a>

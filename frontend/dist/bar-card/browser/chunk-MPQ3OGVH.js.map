@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/ui/brand/brand.component.ts"],
+  "sourcesContent": ["import { Component } from '@angular/core';\n\n@Component({\n  selector: 'ui-brand',\n  standalone: true,\n  template: `\n    <div class=\"flex items-center gap-3\">\n      <div\n        class=\"grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-sm font-black tracking-tight shadow-neon\"\n      >\n        VB\n      </div>\n      <div class=\"font-display text-lg font-black leading-none tracking-tight\">\n        Vavilov<span class=\"text-[#7c5cff]\">.Bar</span>\n      </div>\n    </div>\n  `\n})\nexport class BrandComponent {}\n"],
+  "mappings": ";;;;;;;;;;;AAkBM,IAAO,iBAAP,MAAO,gBAAc;;;uCAAd,iBAAc;IAAA;EAAA;;yEAAd,iBAAc,WAAA,CAAA,CAAA,UAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,CAAA,CAAA,GAAA,QAAA,gBAAA,OAAA,GAAA,CAAA,GAAA,QAAA,QAAA,QAAA,sBAAA,cAAA,UAAA,mBAAA,mBAAA,WAAA,cAAA,kBAAA,aAAA,GAAA,CAAA,GAAA,gBAAA,WAAA,cAAA,gBAAA,gBAAA,GAAA,CAAA,GAAA,gBAAA,CAAA,GAAA,UAAA,SAAA,wBAAA,IAAA,KAAA;AAAA,UAAA,KAAA,GAAA;AAZvB,QAAA,4BAAA,GAAA,OAAA,CAAA,EAAqC,GAAA,OAAA,CAAA;AAIjC,QAAA,iBAAA,GAAA,MAAA;AACF,QAAA,0BAAA;AACA,QAAA,4BAAA,GAAA,OAAA,CAAA;AACE,QAAA,iBAAA,GAAA,UAAA;AAAO,QAAA,4BAAA,GAAA,QAAA,CAAA;AAA6B,QAAA,iBAAA,GAAA,MAAA;AAAI,QAAA,0BAAA,EAAO,EAC3C;;;;;;sEAIC,gBAAc,CAAA;UAhB1B;WAAU;MACT,UAAU;MACV,YAAY;MACZ,UAAU;;;;;;;;;;;;KAYX;;;;6EACY,gBAAc,EAAA,WAAA,kBAAA,UAAA,8CAAA,YAAA,GAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}

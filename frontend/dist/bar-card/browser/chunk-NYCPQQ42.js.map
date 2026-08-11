@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/cocktails/cocktails.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\n\nexport const COCKTAIL_ROUTES: Routes = [\n  {\n    path: '',\n    loadComponent: () =>\n      import('./pages/cocktail-list-page.component').then(\n        (module) => module.CocktailListPageComponent\n      )\n  },\n  {\n    path: 'new',\n    loadComponent: () =>\n      import('./pages/cocktail-editor-page.component').then(\n        (module) => module.CocktailEditorPageComponent\n      )\n  },\n  {\n    path: ':id/edit',\n    loadComponent: () =>\n      import('./pages/cocktail-editor-page.component').then(\n        (module) => module.CocktailEditorPageComponent\n      )\n  },\n  {\n    path: ':id',\n    loadComponent: () =>\n      import('./pages/cocktail-detail-page.component').then(\n        (module) => module.CocktailDetailPageComponent\n      )\n  }\n];\n"],
+  "mappings": ";;;AAEO,IAAM,kBAA0B;EACrC;IACE,MAAM;IACN,eAAe,MACb,OAAO,qBAAsC,EAAE,KAC7C,CAAC,WAAW,OAAO,yBAAyB;;EAGlD;IACE,MAAM;IACN,eAAe,MACb,OAAO,qBAAwC,EAAE,KAC/C,CAAC,WAAW,OAAO,2BAA2B;;EAGpD;IACE,MAAM;IACN,eAAe,MACb,OAAO,qBAAwC,EAAE,KAC/C,CAAC,WAAW,OAAO,2BAA2B;;EAGpD;IACE,MAAM;IACN,eAAe,MACb,OAAO,qBAAwC,EAAE,KAC/C,CAAC,WAAW,OAAO,2BAA2B;;;",
+  "names": []
+}

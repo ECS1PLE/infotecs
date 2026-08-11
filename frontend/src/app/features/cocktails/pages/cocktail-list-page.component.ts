@@ -9,10 +9,10 @@ import { CocktailSummary } from '../../../core/models/cocktail.model';
 import {
   ConfirmDialogComponent,
   ConfirmDialogData
-} from '../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
-import { LoadingStateComponent } from '../../../shared/components/loading-state/loading-state.component';
-import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+} from '../../../shared/ui/confirm-dialog/confirm-dialog.component';
+import { EmptyStateComponent } from '../../../shared/ui/empty-state/empty-state.component';
+import { LoadingStateComponent } from '../../../shared/ui/loading-state/loading-state.component';
+import { PageHeaderComponent } from '../../../shared/ui/page-header/page-header.component';
 import { CocktailTableComponent } from '../components/cocktail-table.component';
 
 @Component({
@@ -28,32 +28,30 @@ import { CocktailTableComponent } from '../components/cocktail-table.component';
     CocktailTableComponent
   ],
   template: `
-    <app-page-header
-      eyebrow="барная карта"
-      title="Коллекция"
-      description="Все рецепты в одном месте. Быстрый доступ к составу, шагам приготовления и визуальным референсам."
+    <ui-page-header
+      eyebrow="каталог"
+      title="Коктейли"
+      description="Список сохранённых рецептов."
     >
       <a mat-flat-button routerLink="/cocktails/new" class="!h-11">
-        Добавить рецепт
+        Добавить
       </a>
-    </app-page-header>
+    </ui-page-header>
 
     @if (status$ | async; as status) {
       @if (status === 'loading' || status === 'idle') {
-        <app-loading-state label="Собираем барную карту" />
+        <ui-loading-state label="Загрузка..." />
       } @else if ((items$ | async); as items) {
         @if (items.length === 0) {
-          <app-empty-state
+          <ui-empty-state
             title="Пока пусто"
-            description="Создайте первый рецепт и соберите личную коллекцию коктейлей."
+            description="Добавьте первый рецепт."
           >
-            <a mat-flat-button routerLink="/cocktails/new">Первый рецепт</a>
-          </app-empty-state>
+            <a mat-flat-button routerLink="/cocktails/new">Создать</a>
+          </ui-empty-state>
         } @else {
-          <div class="mb-4 flex items-center justify-between">
-            <div class="text-sm text-white/35">
-              {{ items.length }} {{ items.length === 1 ? 'рецепт' : 'рецептов' }}
-            </div>
+          <div class="mb-4 text-sm text-white/35">
+            {{ items.length }} {{ items.length === 1 ? 'рецепт' : 'рецептов' }}
           </div>
           <app-cocktail-table [items]="items" (remove)="confirmDelete($event)" />
         }
@@ -76,8 +74,7 @@ export class CocktailListPageComponent implements OnInit {
   confirmDelete(cocktail: CocktailSummary): void {
     const data: ConfirmDialogData = {
       title: `Удалить «${cocktail.name}»?`,
-      description:
-        'Рецепт будет удален из вашей коллекции. Это действие нельзя отменить.',
+      description: 'Рецепт будет удалён без возможности восстановления.',
       confirmLabel: 'Удалить'
     };
 
@@ -91,7 +88,7 @@ export class CocktailListPageComponent implements OnInit {
 
         this.cocktailsFacade.delete(cocktail.id).subscribe({
           next: () => {
-            this.snackBar.open('Рецепт удален', 'Закрыть', { duration: 2500 });
+            this.snackBar.open('Рецепт удалён', 'Закрыть', { duration: 2500 });
           }
         });
       });

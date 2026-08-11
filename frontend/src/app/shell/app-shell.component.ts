@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthFacade } from '../core/auth/auth.facade';
-import { BrandComponent } from '../shared/components/brand/brand.component';
+import { BrandComponent } from '../shared/ui/brand/brand.component';
 
 @Component({
   selector: 'app-shell',
@@ -20,8 +20,8 @@ import { BrandComponent } from '../shared/components/brand/brand.component';
     <div class="min-h-screen">
       <header class="sticky top-0 z-40 border-b border-white/[0.07] bg-[#08080d]/80 backdrop-blur-2xl">
         <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
-          <a routerLink="/cocktails" aria-label="BAR/21">
-            <app-brand [showCaption]="false" />
+          <a routerLink="/cocktails" aria-label="Vavilov.Bar">
+            <ui-brand />
           </a>
 
           <nav class="hidden items-center gap-1 md:flex">
