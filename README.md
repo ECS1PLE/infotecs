@@ -3,6 +3,7 @@ Vavilov Bar
 
 Start:
 ```bash
+Из корневой папки проекта:
 yarn install
 cp backend/.env.example backend/.env
 npm run db:setup
